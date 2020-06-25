@@ -102,7 +102,7 @@ class ListsActivity : AppCompatActivity() {
 
     private fun computeTotals(list : MutableList<Income>) {
         val total = list.map { it.value }.sum()
-        totals.text = getString(R.string.income_ugx, total.toInt())
+        totals.text = getString(R.string.income_ugx, total)
     }
 
     private fun deleteEntry(income: Income, position: Int) {
@@ -140,6 +140,9 @@ class ListsActivity : AppCompatActivity() {
             computeTotals(list)
             mAdapter.notifyDataSetChanged()
         }
+
+        add_entry.text = getString(R.string.add_income)
+        income_entry.text = Editable.Factory.getInstance().newEditable("")
     }
 
 
