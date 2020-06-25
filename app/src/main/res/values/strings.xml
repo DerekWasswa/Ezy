@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Ezy</string>
+
+    <string name="income_ugx">%1$,d UGX</string>
+    <string name="value_exp">100,000 Ugx</string>
+    <string name="timestamp_exp">13th July, 2020</string>
+    <string name="expenditures">My Expenditures</string>
+    <string name="incomes">My Incomes</string>
+    <string name="add_income">Add Entry</string>
+    <string name="totals">Total: %1$,d UGX</string>
+    <string name="add_expenditure">Add Expenditure Entry</string>
+
+    <string name="enter_income">Add Income Entry</string>
+
+    <string name="update">Update</string>
+</resources>
