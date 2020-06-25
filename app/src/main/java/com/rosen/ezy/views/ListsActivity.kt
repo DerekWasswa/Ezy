@@ -70,16 +70,7 @@ class ListsActivity : AppCompatActivity() {
     private fun addEntry() {
         val entry = income_entry.text.toString().trim()
         if (entry.isNotEmpty()) {
-            val currentIncomeListString = EzyPrefs.getPreferences(applicationContext, "incomes")
-            val currentIncomeList = currentIncomeListString?.let {
-                if (it.isNotEmpty()) {
-                    EzyUtils.stringToIncomeConversion(
-                        it
-                    ).toMutableList()
-                } else {
-                    mutableListOf()
-                }
-            }
+            val currentIncomeList = getCurrentList()
 
             currentIncomeList?.let { list ->
                 list.add(Income(entry.toInt(), System.currentTimeMillis()))
@@ -96,6 +87,19 @@ class ListsActivity : AppCompatActivity() {
         }
     }
 
+    private fun getCurrentList() : MutableList<Income>?{
+        val currentIncomeListString = EzyPrefs.getPreferences(applicationContext, "incomes")
+        return currentIncomeListString?.let {
+            if (it.isNotEmpty()) {
+                EzyUtils.stringToIncomeConversion(
+                    it
+                ).toMutableList()
+            } else {
+                mutableListOf()
+            }
+        }
+    }
+
     private fun computeTotals(list : MutableList<Income>) {
         val total = list.map { it.value }.sum()
         totals.text = getString(R.string.income_ugx, total.toInt())
@@ -107,9 +111,11 @@ class ListsActivity : AppCompatActivity() {
 
         EzyPrefs.setPreferences(applicationContext, EzyUtils.incomeToString(currentIncomeList), "incomes")
         incomeList.clear()
-        incomeList.addAll(currentIncomeList)
-        computeTotals(currentIncomeList)
-        mAdapter.notifyDataSetChanged()
+        getCurrentList()?.let {list ->
+            incomeList.addAll(list)
+            computeTotals(list)
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun editEntry(income: Income, position: Int) {
@@ -128,10 +134,12 @@ class ListsActivity : AppCompatActivity() {
 
         EzyPrefs.setPreferences(applicationContext, EzyUtils.incomeToString(currentIncomeList), "incomes")
         incomeList.clear()
-        incomeList.addAll(currentIncomeList)
-        computeTotals(currentIncomeList)
-        mAdapter.notifyDataSetChanged()
 
+        getCurrentList()?.let {list ->
+            incomeList.addAll(list)
+            computeTotals(list)
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
 
